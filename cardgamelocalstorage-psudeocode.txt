@@ -1,0 +1,16 @@
+
+
+
+////CARD GAME
+
+on page load if there is an existing game going on, I want to display 
+- the current score
+- current cards dealt
+- who won the hand
+- player 1 and 2 scores
+- cards remaining
+
+How do I do this? 
+what do I need to assign to local storage? 
+
+
