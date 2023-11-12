@@ -1,8 +1,10 @@
 //Get the deck
 let deckId = ''
-let player1Score = 0
-let player2Score = 0
+let player1Score = 26
+let player2Score = 26
 let warCounter = 0
+
+document.getElementById('playerScores').innerHTML = `Player 1 Score: ${localStorage.getItem('player1Score')} | Player 2 Score: ${localStorage.getItem('player2Score')}`
 
 fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
       .then(res => res.json()) // parse response as JSON
@@ -19,13 +21,14 @@ document.getElementById('playNow').addEventListener('click', getFetch)
 document.getElementById('restart').addEventListener('click', restart)
 
 function restart(){
-  localStorage.clear()
+  localStorage.removeItem('deckID')
   location.reload()
 }
 
 function getFetch(){
 
   const savedDeck = localStorage.getItem('deckID')
+  document.getElementById('playNow').innerHTML = 'Deal Cards'
 
 
   //this ternary operator statement basically says that if there is a deckID saved to local storage, the url will use that (means that it will save any existing game that is still in progress), and if there isnt than it must be a new game so get a new deck if
@@ -70,13 +73,17 @@ function getFetch(){
         if(val1 > val2){
           document.querySelector('h3').innerText = 'Player 1 WON!'
           player1Score += (2 + warCounter)
+          player2Score = player2Score - (2 + warCounter)
           localStorage.setItem('player1Score', player1Score)
+          localStorage.setItem('player2Score', player2Score)
           warCounter = 0
 
         }else if(val1 < val2){
           document.querySelector('h3').innerText = 'Player 2 WON!'
           player2Score += (2 + warCounter)
+          player1Score = player1Score - (2 + warCounter)
           localStorage.setItem('player2Score', player2Score)
+          localStorage.setItem('player1Score', player1Score)
           warCounter = 0
         }else if(val1 == val2){
           document.querySelector('h3').innerText = 'WAR!'
@@ -84,8 +91,8 @@ function getFetch(){
 
         }
 
-        let player1ScoreLS = !localStorage.getItem('player1Score') ? 0 : localStorage.getItem('player1Score')
-        let player2ScoreLS = !localStorage.getItem('player2Score') ? 0 : localStorage.getItem('player2Score')
+        let player1ScoreLS = !localStorage.getItem('player1Score') ? 26 : localStorage.getItem('player1Score')
+        let player2ScoreLS = !localStorage.getItem('player2Score') ? 26 : localStorage.getItem('player2Score')
 
 
         document.getElementById('playerScores').innerHTML = `Player 1 Score: ${player1ScoreLS} | Player 2 Score: ${player2ScoreLS}`
